@@ -325,12 +325,12 @@ class DataMesinController extends Controller
                 return '<button>Edit</button>';
             })
             ->filter(function ($query) {
-                if (request()->has('nama_kategori')) {
+                if (request()->has('nama_kategori') && request('nama_kategori') != '') {
                     $query->whereHas('kategori', function ($q) {
                         $q->where('nama_kategori', request('nama_kategori'));
                     });
                 }
-                if (request()->has('nama_klasifikasi')) {
+                if (request()->has('nama_klasifikasi') && request('nama_klasifikasi') != '') {
                     $query->whereHas('klasifikasi', function ($q) {
                         $q->where('nama_klasifikasi', request('nama_klasifikasi'));
                     });
@@ -351,6 +351,6 @@ class DataMesinController extends Controller
                 }
             })
             ->rawColumns(['action', 'nama_kategori', 'nama_klasifikasi'])
-            ->toJson();
+            ->make(true);
     }
 }

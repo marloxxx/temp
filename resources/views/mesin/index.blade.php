@@ -20,8 +20,8 @@
                     Data Mesin</a>
 
                 <!--
-                                                                                                                                                                                                                                                                                                                                                        <a href="/data-mesin/printpdf" class="btn btn-success btn-icon-split btn-sm mb-3">Print Data Mesin</a>
-                                                                                                                                                                                                                                                                                                                                                        -->
+                                                                                                                                                                                                                                                                                                                                                                                                    <a href="/data-mesin/printpdf" class="btn btn-success btn-icon-split btn-sm mb-3">Print Data Mesin</a>
+                                                                                                                                                                                                                                                                                                                                                                                                    -->
                 <button type="button" class="btn btn-success btn-icon-split btn-sm mb-3" data-toggle="modal"
                     data-target="#importModal">IMPORT</button>
                 <a href="#" class="btn btn-success btn-icon-split btn-sm mb-3" data-toggle="modal"
@@ -180,8 +180,16 @@
         $(document).ready(function() {
             var table = $('#datatable7').DataTable({
                 "processing": true,
+                "searching": true,
                 "serverSide": true,
-                "ajax": "{{ route('mesin.data') }}",
+                ajax: {
+                    url: "{{ route('mesin.data') }}",
+                    type: 'GET',
+                    data: function(d) {
+                        d.nama_kategori = $('#data1').val();
+                        d.nama_klasifikasi = $('#data2').val();
+                    }
+                },
                 "columns": [{
                         data: null,
                         orderable: false,
