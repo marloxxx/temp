@@ -1,0 +1,255 @@
+@extends('layout.main')
+
+@section('content')
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2>Tambah Data Mesin</h2>
+                </div>
+                <div class="card-body">
+                    <!--
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Whoops!</strong> Terdapat beberapa masalah pada input Anda:<br><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+-->
+                    <form method="post" action="/data-mesin" id="myForm" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="kode_jenis" class="form-label">Nomor</label>
+                            <input type="text" name="kode_jenis" class="form-control @error('kode_jenis') is-invalid @enderror" id="kode_jenis" placeholder="Masukkan nama jenis baru.." maxlength="10" readonly value="{{ old('kode_jenis', sprintf('001-%s', old('tahun_mesin'))) }}">
+                            @error('kode_jenis')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_mesin" class="form-label">Nama Mesin<span class="text-danger">*</span></label>
+                            <input type="text" name="nama_mesin" class="form-control" id="nama_mesin" placeholder="Masukkan Nama Mesin" value="{{ old('nama_mesin') }}" required>
+                            @error('nama_mesin')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="nama_kategori" class="form-label">Kategori Mesin<span class="text-danger">*</label>
+                                <select id="single-select-field" name="nama_kategori" class="form-control">
+                                    <option value="">-- Select Kategori --</option>
+                                    @foreach ($kategorimesin as $data)
+                                    <option value="{{ $data->id }}" data-kode-kategori="{{ $data->kode_kategori }}">{{ $data->nama_kategori }}</option>
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('nama_kategori')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <label for="klas_mesin" class="form-label">Klasifikasi Mesin<span class="text-danger">*</label>
+                                <select id="single-select-field2" name="klas_mesin" class="form-control">
+                                    <option value="">-- Select Klasifikasi --</option>
+                                </select>
+                                @error('nama_klasifikasi')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type_mesin" class="form-label">Type<span class="text-danger">*</span></label>
+                            <input type="text" name="type_mesin" class="form-control" id="type_mesin" placeholder="Masukan Type mesin" value="{{ old('type_mesin') }}" required>
+                            @error('type_mesin')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="merk_mesin" class="form-label">Merk<span class="text-danger">*</span></label>
+                            <input type="text" name="merk_mesin" class="form-control" id="merk_mesin" placeholder="Masukan Merk Mesin" value="{{ old('merk_mesin') }}" required>
+                            @error('merk_mesin')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="spek_mesin" class="form-label">Spesifikasi:<span class="text-danger">*</label>
+                            <div class="col">
+                                <div class="d-flex">
+                                    <div class="text-primary align-self-center">Min.</div>
+                                    <input type="text" name="spek_min" class="form-control" id="spek_min" placeholder="Masukan Minimal" value="{{ old('spek_min') }}" required>
+                                </div>
+                                @error('spek_min')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col">
+                                <div class="d-flex">
+                                    <div class="text-primary align-self-center">Max.</div>
+                                    <input type="text" name="spek_max" class="form-control" id="spek_max" placeholder="Masukan maximal" value="{{ old('spek_max') }}">
+                                </div>
+                                @error('spek_max')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="mb-3">
+                            <label for="kapasitas" class="form-label">Kapasitas<span class="text-danger">*</label>
+                            <input type="text" name="kapasitas" class="form-control" id="kapasitas" placeholder="Masukan Kapasitas Bulanan" value="{{ old('kapasitas') }}" required>
+                            @error('kapasitas')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="pabrik" class="form-label">Pabrikan<span class="text-danger">*</label>
+                            <input type="text" name="pabrik" class="form-control" id="pabrik" placeholder="Masukan Negara Pembuat" value="{{ old('pabrik') }}" required>
+                            @error('pabrik')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahun_mesin" class="form-label">Tahun Mesin<span class="text-danger">*</label>
+                            <input type="text" name="tahun_mesin" class="form-control" id="tahun_mesin" placeholder="Masukan Tahun" value="{{ old('tahun_mesin') }}" required>
+                            @error('tahun_mesin')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="lok_ws" class="form-label">Lokasi,<span class="text-danger">*</span></label>
+                            <select class="form-select" name="lok_ws" data-placeholder="Silahkan Pilih" id="single-select-field3">
+                                <option value="" selected disabled>-- Pilih Lokasi Terdaftar --</option>
+                                @foreach ($workshop as $kategori)
+                                <option value="{{ $kategori->nama_workshop }}">{{ $kategori->nama_workshop }}</option>
+                                @endforeach
+                            </select>
+                            @error('lok_ws')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="gambar_mesin" class="form-label">Gambar Mesin</label>
+                            <input type="file" name="gambar_mesin" class="form-control" id="gambar_mesin" placeholder="Masukan Gambar mesin">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a class="btn btn-success" href="/klasifikasi-mesin">Kembali</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#single-select-field').select2();
+        $('#single-select-field2').select2();
+
+        $('#single-select-field').on('change', function() {
+            var idCountry = this.value;
+            var kodeKategori = $(this).find(':selected').attr('data-kode-kategori');
+
+            $("#single-select-field2").html('');
+
+            $.ajax({
+                url: "{{url('api/getklasmesin')}}",
+                type: "POST",
+                data: {
+                    kategorimesin_id: idCountry,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#single-select-field2').html('<option value="">-- Select Klasifikasi --</option>');
+                    $.each(result.klasmesin, function(key, value) {
+                        // Pastikan atribut data-kode-klasifikasi ada dan terisi dengan benar
+                        var kodeKlasifikasi = value.kode_klasifikasi ? value.kode_klasifikasi : '';
+
+                        $("#single-select-field2").append('<option value="' + value.id + '" data-kode-klasifikasi="' + kodeKlasifikasi + '">' + value.nama_klasifikasi + '</option>');
+                    });
+
+                    // Panggil fungsi updateKodeJenis saat dropdown klasifikasi berubah
+                    updateKodeJenis();
+                }
+            });
+        });
+
+        // Panggil fungsi updateKodeJenis saat dropdown klasifikasi berubah
+        $('#single-select-field2').on('change', function() {
+            updateKodeJenis();
+        });
+
+        function getLatestID() {
+            // Menggunakan AJAX untuk mengambil ID terbaru dari server
+            $.ajax({
+                url: '/get-latest-id', // Ganti ini dengan URL yang sesuai di aplikasi Laravel Anda
+                method: 'GET',
+                success: function(response) {
+                    // Response akan berisi ID terbaru dari server
+                    var latestID = response.latestID;
+
+                    // Lanjutkan dengan mengatur nilai kodeJenis
+                    updateKodeJenis(latestID);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Gagal mengambil ID terbaru: ' + error);
+                }
+            });
+        }
+
+        function updateKodeJenis(latestID) {
+            var selectedKategori = $('#single-select-field');
+            var selectedKlasifikasi = $('#single-select-field2');
+            var tahunMesin = $('#tahun_mesin').val();
+
+            var kodeKategori = selectedKategori.find(':selected').attr('data-kode-kategori');
+            var kodeKlasifikasi = selectedKlasifikasi.find(':selected').attr('data-kode-klasifikasi');
+
+            var kodeJenis = '';
+
+            if (kodeKategori) {
+                kodeJenis += kodeKategori;
+            }
+
+            if (kodeKlasifikasi) {
+                kodeJenis += ' - ' + kodeKlasifikasi;
+            }
+
+            var nomorUrut = ('000' + latestID).slice(-3);
+            kodeJenis += ' - ' + nomorUrut;
+
+            if (tahunMesin) {
+                kodeJenis += ' - ' + tahunMesin;
+
+            }
+
+            $('#kode_jenis').val(kodeJenis);
+        }
+
+        // Panggil fungsi saat input "tahun_mesin" berubah
+        $('#tahun_mesin').on('input', function() {
+            getLatestID();
+        });
+
+        // Panggil fungsi saat dropdown kategori berubah
+        $('#single-select-field').on('change', function() {
+            getLatestID();
+        });
+
+        // Panggil fungsi saat halaman dimuat untuk menginisialisasi nilai "kode_jenis"
+        window.addEventListener('load', function() {
+            getLatestID();
+        });
+    });
+</script>
+</body>
+
+</html>
+@endsection

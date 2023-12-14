@@ -1,0 +1,212 @@
+<div class="leftside-menu">
+
+    <!-- LOGO -->
+    <a href="/" class="logo text-center logo-light">
+        <span class="logo-lg">
+            <img src="/assets/images/main2.png" alt="" height="100">
+        </span>
+    </a>
+
+    <!-- LOGO -->
+    <a href="/" class="logo text-center logo-dark">
+        <span class="logo-lg">
+            <img src="/assets/images/logo-dark.png" alt="" height="16">
+        </span>
+        <span class="logo-sm">
+            <img src="/assets/images/logo_sm_dark.png" alt="" height="16">
+        </span>
+    </a>
+
+    <div class="h-100" id="leftside-menu-container" data-simplebar="">
+
+        <!--- Sidemenu -->
+        <ul class="side-nav">
+
+            <li class="side-nav-item">
+                <a href="/" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                    <br><i class="uil-home-alt" href="/"></i>
+                    <span class="badge bg-success float-end" href="/"></span>
+                    <span> Home </span>
+
+                </a>
+                {{-- <div class="collapse" id="sidebarDashboards">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="dashboard-analytics.html">Analytics</a>
+                        </li>
+                        <li>
+                            <a href="dashboard-crm.html">CRM</a>
+                        </li>
+                        <li>
+                            <a href="index.html">Ecommerce</a>
+                        </li>
+                        <li>
+                            <a href="dashboard-projects.html">Projects</a>
+                        </li>
+                    </ul>
+                </div> --}}
+            </li>
+
+
+            <li class="side-nav-title side-nav-item">Manajemen Inventaris</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarInventaris" aria-expanded="false" aria-controls="sidebarInventaris" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Inventaris </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarInventaris">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/kategori-mesin">Kategori</a>
+                        </li>
+                        <li>
+                            <a href="/klasifikasi-mesin">klasifikasi</a>
+                        </li>
+                        <li>
+                            <a href="/data-mesin">Data Mesin</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="side-nav-title side-nav-item" @if(auth()->user()->level=='Admin')>Manajemen Pengguna</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarpenguna" aria-expanded="false" aria-controls="sidebarpenguna" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Pengguna </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarpenguna">
+                    <ul class="side-nav-second-level">
+                        <!--
+            <li>
+                <a href="/pegawai">Data Pegawai</a>
+            </li>
+    -->
+                        <li>
+                            <a href="/datapetugas">Data Petugas</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            @else
+
+            @endif
+            <!--
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarpelaporan" aria-expanded="false" aria-controls="sidebarpelaporan" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span>Pelaporan</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarpelaporan">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/#">Permintaan</a>
+                        </li>
+                        <li>
+                            <a href="/#">Status</a>
+                        </li>
+                        <li>
+                            <a href="/#">Laporan</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            @else
+
+            @endif
+                -->
+            <!--
+            <li class="side-nav-title side-nav-item">Manajemen Perbaikan</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarperbaikan" aria-expanded="false" aria-controls="sidebarperbaikan" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Perbaikan </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarperbaikan">
+                    <ul class="side-nav-second-level">
+                        @if(auth()->user()->level=='Admin')
+                        <li>
+                            <a href="/perbaikan">Data Permintaan</a>
+                        </li>
+                        <li>
+                            <a href="/status">Data Status</a>
+                        </li>
+                        @else
+                        <li>
+                            <a href="/pegawai">Buat Laporan Perbaikkan</a>
+                            <a href="/pengembalian">Data Status</a>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+                -->
+            <!--
+            <li class="side-nav-title side-nav-item" @if(auth()->user()->level=='Admin')>>Managemen Peminjaman</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarPinjam" aria-expanded="false" aria-controls="sidebarPinjam" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Peminjaman </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarPinjam">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/pinjam">Data Peminjaman</a>
+                        </li>
+                        <li>
+                            <a href="/pengembalian">Data Pengembalian</a>
+                        </li>
+                        <li>
+                            <a href="/statuspinjam">Status</a>
+                        </li>
+                        @else
+
+                        @endif
+                    </ul>
+                </div>
+            </li>
+            <li class="side-nav-title side-nav-item">Managemen Laporan</li>
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarlapor" aria-expanded="false" aria-controls="sidebarlapor" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Laporan </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarlapor">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="/transaksipeminjaman">Laporan peminjaman</a>
+                        </li>
+                        <li>
+                            <a href="/pengembalian">Laporan Perbaikan</a>
+                        </li>
+                        <li>
+                            <a href="/laporan">Rekapan</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+                -->
+            <!--
+            <li class="side-nav-title side-nav-item">Manajemen Perbaikan</li>
+            <li class="side-nav-item">
+                <a href="/laporan" class="side-nav-link">
+                    <i class="uil-folder-plus"></i>
+                    <span> Laporan </span>
+                </a>
+            </li>
+                -->
+            <!-- End Sidebar -->
+
+            <div class="clearfix"></div>
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>

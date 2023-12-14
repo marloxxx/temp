@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateKlasmesinTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+
+        Schema::create('klasmesin', function (Blueprint $table) {
+            /*
+            $table->id();
+            $table->string('nama_klasifikasi');
+            $table->string('kode_klasifikasi');
+            $table->timestamps();
+        });
+        */
+            $table->id();
+            $table->string('nama_klasifikasi');
+            $table->string('kode_klasifikasi');
+            $table->unsignedBigInteger('kategori_id'); // Menambahkan kunci asing
+            $table->foreign('kategori_id')->references('id')->on('kategorimesin'); // Menetapkan kunci asing ke tabel kategorimesin
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('klasmesin');
+    }
+}

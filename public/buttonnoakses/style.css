@@ -1,0 +1,17 @@
+/* public/buttonnoakses/style.css */
+
+.back-button {
+    /* Gaya tombol yang diinginkan */
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.back-button:hover {
+    background: linear-gradient(90deg, #0056b3, #007bff);
+}

@@ -1,0 +1,118 @@
+<style>
+    /* Style for the Data Mesin page */
+    .container-fluid {
+        padding: 20px;
+    }
+
+    .alert.alert-success {
+        margin-bottom: 20px;
+    }
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .btn.btn-primary {
+        background-color: #007BFF;
+        color: #fff;
+    }
+
+    .btn.btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn.btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn.btn-success:hover {
+        background-color: #1e7e34;
+    }
+
+    .table.table-bordered {
+        width: 100%;
+    }
+
+    /* Style for the table */
+    .table.table-bordered thead th {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .table.table-bordered tbody td {
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    /* Adjust column widths */
+    .table.table-bordered th:nth-child(1),
+    .table.table-bordered td:nth-child(1) {
+        width: 10%;
+    }
+
+    .table.table-bordered th:nth-child(2),
+    .table.table-bordered td:nth-child(2) {
+        width: 10%;
+    }
+
+    .table.table-bordered th:nth-child(3),
+    .table.table-bordered td:nth-child(3) {
+        width: 15%;
+    }
+
+    .table.table-bordered th:nth-child(4),
+    .table.table-bordered td:nth-child(4) {
+        width: 8%;
+    }
+
+    .table.table-bordered th:nth-child(5),
+    .table.table-bordered td:nth-child(5) {
+        width: 10%;
+    }
+
+    .table.table-bordered th:nth-child(6),
+    .table.table-bordered td:nth-child(6) {
+        width: 12%;
+    }
+
+    .table.table-bordered th:nth-child(7),
+    .table.table-bordered td:nth-child(7) {
+        width: 10%;
+    }
+
+    .table.table-bordered th:nth-child(8),
+    .table.table-bordered td:nth-child(8) {
+        width: 5%;
+    }
+
+    .table.table-bordered th:nth-child(9),
+    .table.table-bordered td:nth-child(9) {
+        width: 5%;
+    }
+
+    .table.table-bordered th:nth-child(10),
+    .table.table-bordered td:nth-child(10) {
+        width: 10%;
+    }
+
+    /* Style for buttons in the table */
+    .table.table-bordered .btn {
+        font-size: 16px;
+        margin: 0 5px;
+        background-color: #17a2b8;
+        color: #fff;
+        border: none;
+    }
+
+    .table.table-bordered .btn:hover {
+        background-color: #138496;
+    }
+
+    /* Add some spacing to the pagination links */
+    .d-flex.justify-content-center {
+        margin-top: 20px;
+    }
+</style>
