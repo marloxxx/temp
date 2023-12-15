@@ -340,9 +340,7 @@ class DataMesinController extends Controller
 
     public function getDataMesin()
     {
-        $dataMesin = DataMesin::query()
-            ->with('kategorimesin', 'klasmesin')
-            ->select('datamesin.*');
+        $dataMesin = DataMesin::all();
 
         return DataTables::of($dataMesin)
             ->addColumn('DT_RowIndex', function ($data) {
@@ -356,32 +354,6 @@ class DataMesinController extends Controller
             })
             ->addColumn('action', function ($data) {
                 return '<button>Edit</button>';
-            })
-            ->filter(function ($query) {
-                if (request()->has('nama_kategori') && request('nama_kategori') != '') {
-                    $query->whereHas('kategori', function ($q) {
-                        $q->where('nama_kategori', request('nama_kategori'));
-                    });
-                }
-                if (request()->has('nama_klasifikasi') && request('nama_klasifikasi') != '') {
-                    $query->whereHas('klasifikasi', function ($q) {
-                        $q->where('nama_klasifikasi', request('nama_klasifikasi'));
-                    });
-                }
-                // search
-                if (request()->has('search') && request('search')['value'] != '') {
-                    $searchValue = request('search')['value'];
-                    $query->where(function ($q) use ($searchValue) {
-                        $q->where('nama_mesin', 'like', '%' . $searchValue . '%')
-                            ->orWhere('kode_jenis', 'like', '%' . $searchValue . '%')
-                            ->orWhere('type_mesin', 'like', '%' . $searchValue . '%')
-                            ->orWhere('merk_mesin', 'like', '%' . $searchValue . '%')
-                            ->orWhere('spek_min', 'like', '%' . $searchValue . '%')
-                            ->orWhere('spek_max', 'like', '%' . $searchValue . '%')
-                            ->orWhere('tahun_mesin', 'like', '%' . $searchValue . '%')
-                            ->orWhere('lok_ws', 'like', '%' . $searchValue . '%');
-                    });
-                }
             })
             ->rawColumns(['action', 'nama_kategori', 'nama_klasifikasi'])
             ->make(true);
