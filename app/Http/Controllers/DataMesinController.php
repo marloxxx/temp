@@ -77,8 +77,8 @@ class DataMesinController extends Controller
         $tes = $request->validate([
             'nama_mesin' => 'required',
             'tahun_mesin' => 'required',
-            'nama_kategori' => '',
-            'nama_klasifikasi' => '',
+            'kategori' => 'required|exists:kategorimesin,id',
+            'klasifikasi' => 'required|exists:klasmesin,id',
             'klas_mesin' => 'required',
             'kode_jenis' => 'required',
             'type_mesin' => 'required',
@@ -91,14 +91,15 @@ class DataMesinController extends Controller
 
 
         ]);
+        $kategorimesin = KategoriMesin::where('id', $request->kategori)->first();
+        $klasmesin = KlasMesin::where('id', $request->klasifikasi)->first();
+        $tes['nama_kategori'] = $kategorimesin->nama_kategori;
+        $tes['kode_kategori'] = $kategorimesin->kode_kategori;
+        $tes['nama_klasifikasi'] = $klasmesin->nama_klasifikasi;
+        $tes['kode_klasifikasi'] = $klasmesin->kode_klasifikasi;
         if ($request->file('gambar_mesin')) {
             $tes['gambar_mesin'] = $request->file('gambar_mesin')->store('datamesin', 'public');
         }
-
-        // Buat entitas DataMesin dan isi input lainnya
-        $jenis = new DataMesin([
-            // Isi input lainnya
-        ]);
 
         DataMesin::create($tes);
 
@@ -149,7 +150,8 @@ class DataMesinController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'klas_mesin' => 'required',
+            'kategori' => 'required|exists:kategorimesin,id',
+            'klasifikasi' => 'required|exists:klasmesin,id',
             'nama_mesin' => 'required',
             'type_mesin' => 'required',
             'merk_mesin' => 'required',
@@ -162,6 +164,14 @@ class DataMesinController extends Controller
         ];
 
         $validateData = $request->validate($rules);
+
+        $kategorimesin = KategoriMesin::where('id', $request->kategori)->first();
+        $klasmesin = KlasMesin::where('id', $request->klasifikasi)->first();
+
+        $validateData['nama_kategori'] = $kategorimesin->nama_kategori;
+        $validateData['kode_kategori'] = $kategorimesin->kode_kategori;
+        $validateData['nama_klasifikasi'] = $klasmesin->nama_klasifikasi;
+        $validateData['kode_klasifikasi'] = $klasmesin->kode_klasifikasi;
 
         $update = DataMesin::find($id);
         $update->klas_mesin = $request->klas_mesin;
@@ -308,7 +318,7 @@ class DataMesinController extends Controller
     public function getDataMesin()
     {
         $dataMesin = DataMesin::query()
-            ->with('kategori', 'klasifikasi')
+            ->with('kategorimesin', 'klasmesin')
             ->select('datamesin.*');
 
         return DataTables::of($dataMesin)

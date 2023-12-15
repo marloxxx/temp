@@ -32,12 +32,12 @@ class DataMesin extends Model
     /*SERVER SIDE RELATIONSHIP*/
     public function klasmesin()
     {
-        return $this->belongsTo(Klasmesin::class, 'klas_mesin');
+        return $this->belongsTo(Klasmesin::class, 'kode_klasifikasi', 'id');
     }
 
     public function kategorimesin()
     {
-        return $this->belongsTo(Kategorimesin::class, 'nama_kategori');
+        return $this->belongsTo(Kategorimesin::class, 'kode_kategori', 'id');
     }
 
     /*SERVER SIDE RELATIONSHIP*/
