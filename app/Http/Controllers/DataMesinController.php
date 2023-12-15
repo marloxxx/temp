@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataMesin;
-use App\Models\Workshop;
-use App\Models\KlasMesin;
-use App\Models\DataKategori;
-use App\Models\KategoriMesin;
-use App\Models\NoRegistrasi;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\DB;
-use App\Models\Klasifikasi;
 use App\Models\Kategori;
+use App\Models\Workshop;
+use App\Models\DataMesin;
+use App\Models\KlasMesin;
+use App\Models\Klasifikasi;
+use Laravel\Ui\Presets\Vue;
+use App\Models\DataKategori;
+use App\Models\NoRegistrasi;
+use Illuminate\Http\Request;
+use App\Models\KategoriMesin;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DataMesinController extends Controller
 {
@@ -74,12 +75,12 @@ class DataMesinController extends Controller
      */
     public function store(Request $request)
     {
-        $tes = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'nama_mesin' => 'required',
             'tahun_mesin' => 'required',
             'kategori' => 'required|exists:kategorimesin,id',
             'klasifikasi' => 'required|exists:klasmesin,id',
-            'klas_mesin' => 'required',
             'kode_jenis' => 'required',
             'type_mesin' => 'required',
             'merk_mesin' => 'required',
@@ -91,17 +92,39 @@ class DataMesinController extends Controller
 
 
         ]);
+        if ($validator->fails()) {
+            return redirect('/data-mesin/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         $kategorimesin = KategoriMesin::where('id', $request->kategori)->first();
         $klasmesin = KlasMesin::where('id', $request->klasifikasi)->first();
-        $tes['nama_kategori'] = $kategorimesin->nama_kategori;
-        $tes['kode_kategori'] = $kategorimesin->kode_kategori;
-        $tes['nama_klasifikasi'] = $klasmesin->nama_klasifikasi;
-        $tes['kode_klasifikasi'] = $klasmesin->kode_klasifikasi;
+        $fileNama = null;
         if ($request->file('gambar_mesin')) {
-            $tes['gambar_mesin'] = $request->file('gambar_mesin')->store('datamesin', 'public');
+            $file = $request->file('gambar_mesin');
+            $fileNama = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('datamesin', $fileNama, 'public');
         }
 
-        DataMesin::create($tes);
+        DataMesin::create([
+            'no_mesin' => $request->no_mesin,
+            'klas_mesin' => $request->klasifikasi,
+            'nama_mesin' => $request->nama_mesin,
+            'type_mesin' => $request->type_mesin,
+            'merk_mesin' => $request->merk_mesin,
+            'spek_min' => $request->spek_min,
+            'spek_max' => $request->spek_max,
+            'pabrik' => $request->pabrik,
+            'kapasitas' => $request->kapasitas,
+            'tahun_mesin' => $request->tahun_mesin,
+            'lok_ws' => $request->lok_ws,
+            'gambar_mesin' => $fileNama,
+            'nama_kategori' => $kategorimesin->nama_kategori,
+            'nama_klasifikasi' => $klasmesin->nama_klasifikasi,
+            'kode_kategori' => $kategorimesin->id,
+            'kode_klasifikasi' => $klasmesin->id,
+            'kode_jenis' => $request->kode_jenis,
+        ]);
 
         return redirect('/data-mesin')
             ->with('success', 'Data sudah tersimpan');

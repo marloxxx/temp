@@ -25,11 +25,11 @@ class DataMesinImport implements ToModel, WithHeadingRow
         $klasifikasiId = $klasifikasi->id;
 
         // Update atau insert data mesin dengan kunci unik 'kode_jenis'
-        $data = DataMesin::updateOrInsert(
+        DataMesin::updateOrInsert(
             [$uniqueColumn => $row['kode_jenis']], // Kolom yang digunakan sebagai kunci unik
             [
-                'nama_kategori' => $kategoriId,
-                'klas_mesin' => $klasifikasiId,
+                'nama_kategori' => $row['nama_kategori'],
+                'klas_mesin' => $row['klas_mesin'],
                 'nama_mesin' => $row['nama_mesin'],
                 'type_mesin' => $row['type_mesin'],
                 'merk_mesin' => $row['merk_mesin'],
@@ -40,6 +40,8 @@ class DataMesinImport implements ToModel, WithHeadingRow
                 'kapasitas' => $row['kapasitas'],
                 'tahun_mesin' => $row['tahun_mesin'],
                 'lok_ws' => $row['lok_ws'],
+                'kode_kategori' => $kategoriId,
+                'kode_klasifikasi' => $klasifikasiId,
             ]
         );
     }

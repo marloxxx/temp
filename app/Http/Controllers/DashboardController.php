@@ -19,16 +19,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $jumlahKategori = DataMesin::with('kategori')
+        $jumlahKategori = DataMesin::with('kategorimesin')
             ->select('nama_kategori')
             ->distinct()
             ->get();
 
-        $jumlahKlasifikasi = DataMesin::with('klasifikasi')
+        $jumlahKlasifikasi = DataMesin::with('klasmesin')
             ->select('nama_klasifikasi')
             ->distinct()
             ->get();
-        // dd($jumlahKategori);
         return view('index', [
             'jumlahKategori' => $jumlahKategori,
             'jumlahKlasifikasi' => $jumlahKlasifikasi,
