@@ -245,15 +245,17 @@ class DataMesinController extends Controller
         $klasifikasi = Klasifikasi::where('kategori_id', $request->kategori_id)->pluck('nama', 'id');
         return response()->json($klasifikasi);
     }
+
     public function getLatestID(Request $request)
     {
         $latestID = DataMesin::latest()->value('id');
         return response()->json(['latestID' => $latestID]);
     }
+
     public function getLatestmESIN($kategoriID, $klasifikasiID, $tahun)
     {
-        $latest = DataMesin::where('nama_kategori', $kategoriID)
-            ->where('klas_mesin', $klasifikasiID)->latest('kode_jenis')->value('kode_jenis');
+        $latest = DataMesin::where('kode_kategori', $kategoriID)
+            ->where('kode_klasifikasi', $klasifikasiID)->latest('kode_jenis')->value('kode_jenis');
         if ($latest != null) {
             return response()->json(['latest' => $latest]);
         } else {

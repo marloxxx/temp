@@ -270,17 +270,12 @@
                         "/" + tahunMesin,
                     method: "GET",
                     success: function(response) {
-
                         if (response.latest == '') {
                             // var nomorUrut = ('000' + latestID).slice(-3);
                             var kodeJenis = kodeKategori + ' - ' + kodeKlasifikasi + ' - ' + '001' +
                                 ' - ' + tahunMesin;
                             $('#kode_jenis').val(kodeJenis);
                         } else {
-                            console.log('====================================');
-                            console.log(response.latest);
-                            console.log('====================================');
-
                             var inputString = response.latest;
                             var nextNomorUrut = incrementNomorUrut(inputString);
 
@@ -295,6 +290,23 @@
                     },
                 });
             }
+
+            function incrementNomorUrut(inputString) {
+                // Memotong string untuk mendapatkan nomor urut
+                var nomorUrutString = inputString.split('-')[2].trim();
+
+                // Mengonversi string menjadi bilangan bulat
+                var nomorUrutInt = parseInt(nomorUrutString, 10);
+
+                // Menambahkan 1
+                var nextNomorUrutInt = nomorUrutInt + 1;
+
+                // Format nomor urut menjadi string dengan panjang 3 karakter
+                var nextNomorUrutString = ('000' + nextNomorUrutInt).slice(-3);
+
+                return nextNomorUrutString;
+            }
+
 
             // Panggil fungsi saat input "tahun_mesin" berubah
             $('#tahun_mesin').on('input', function() {
