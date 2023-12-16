@@ -296,7 +296,20 @@
                 });
             }
 
-            getLatestID();
+            // Panggil fungsi saat input "tahun_mesin" berubah
+            $('#tahun_mesin').on('input', function() {
+                updateKodeJenis();
+            });
+
+            // Panggil fungsi saat dropdown kategori berubah
+            $('#single-select-field').on('change', function() {
+                getLatestID();
+            });
+
+            // Panggil fungsi saat halaman dimuat untuk menginisialisasi nilai "kode_jenis"
+            window.addEventListener('load', function() {
+                getLatestID();
+            });
         });
     </script>
 
