@@ -46,7 +46,8 @@
                                 <div class="col">
                                     <label for="kapasitas" class="form-label">Kapasitas</label>
                                     <input type="text" name="kapasitas" class="form-control" id="kapasitas"
-                                        placeholder="Masukan Kapasitas Bulanan" value="{{ $datamesin->kapasitas }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                        placeholder="Masukan Kapasitas Bulanan" value="{{ $datamesin->kapasitas }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -58,7 +59,7 @@
                                         @foreach ($kategorimesin as $data)
                                             <option value="{{ $data->id }}" data-id="{{ $data->id }}"
                                                 data-kode-kategori="{{ $data->kode_kategori }}"
-                                                {{ $datamesin->nama_kategori == $data->id ? 'selected' : '' }}>
+                                                {{ $datamesin->kode_kategori == $data->id ? 'selected' : '' }}>
                                                 {{ $data->nama_kategori }}
                                             </option>
                                         @endforeach
@@ -113,7 +114,8 @@
                                 <div class="col">
                                     <label for="tahun_mesin" class="form-label">Tahun Mesin</label>
                                     <input type="text" name="tahun_mesin" class="form-control" id="tahun_mesin"
-                                        value="{{ $datamesin->tahun_mesin }}" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                        value="{{ $datamesin->tahun_mesin }}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                 </div>
                             </div>
                             @error('tahun_mesin')
@@ -146,6 +148,42 @@
         </div>
     </div>
     <script>
+        $(document).ready(function() {
+            $('#single-select-field').select2();
+            $('#single-select-field2').select2();
+            $('#single-select-field3').select2({
+                matcher: function(params, data) {
+                    // Jika pencarian kosong, tampilkan semua opsi
+                    if ($.trim(params.term) === '') {
+                        return data;
+                    }
+
+                    // Ubah teks opsi dan kata kunci pencarian ke huruf kecil untuk pencarian yang tidak bersifat case-sensitive
+                    var text = data.text.toLowerCase();
+                    var term = params.term.toLowerCase();
+
+                    // Cek apakah dua huruf dari kata kunci muncul dalam teks opsi secara berurutan
+                    var termChars = term.split('');
+                    var termLength = termChars.length;
+                    var lastMatchedIndex = -1;
+
+                    for (var i = 0; i < termLength; i++) {
+                        var char = termChars[i];
+                        var indexInText = text.indexOf(char, lastMatchedIndex + 1);
+
+                        if (indexInText === -1) {
+                            return null; // Jika satu huruf tidak ditemukan, kembalikan null
+                        }
+
+                        lastMatchedIndex = indexInText;
+                    }
+
+                    // Jika semua huruf ditemukan secara berurutan, kembalikan data
+                    return data;
+                }
+            });
+        });
+
         window.addEventListener('load', function() {
             var kodeKategori = $('#single-select-field').find(':selected').attr('data-kode-kategori');
             var idCountry = $('#single-select-field').find(':selected').data('id');
@@ -164,15 +202,20 @@
                         '<option value="">-- Select Klasifikasi --</option>');
                     $.each(result.klasmesin, function(key, value) {
                         // Pastikan atribut data-kode-klasifikasi ada dan terisi dengan benar
-                        var kodeKlasifikasi = value.kode_klasifikasi ? value.kode_klasifikasi :
+                        var kodeKlasifikasi = value.kode_klasifikasi ? value
+                            .kode_klasifikasi :
                             '';
                         if ({{ $datamesin->klas_mesin }} == value.id) {
-                            $("#single-select-field2").append('<option selected value="' + value
-                                .id + '" data-kode-klasifikasi="' + kodeKlasifikasi + '">' +
+                            $("#single-select-field2").append(
+                                '<option selected value="' + value
+                                .id + '" data-kode-klasifikasi="' +
+                                kodeKlasifikasi + '">' +
                                 value.nama_klasifikasi + '</option>');
                         } else {
-                            $("#single-select-field2").append('<option value="' + value.id +
-                                '" data-kode-klasifikasi="' + kodeKlasifikasi + '">' + value
+                            $("#single-select-field2").append('<option value="' +
+                                value.id +
+                                '" data-kode-klasifikasi="' + kodeKlasifikasi +
+                                '">' + value
                                 .nama_klasifikasi + '</option>');
                         }
 
@@ -203,15 +246,19 @@
                     dataType: 'json',
                     success: function(result) {
                         $('#single-select-field2').html(
-                            '<option value="">-- Select Klasifikasi --</option>');
+                            '<option value="">-- Select Klasifikasi --</option>'
+                        );
                         $.each(result.klasmesin, function(key, value) {
                             // Pastikan atribut data-kode-klasifikasi ada dan terisi dengan benar
-                            var kodeKlasifikasi = value.kode_klasifikasi ? value
+                            var kodeKlasifikasi = value.kode_klasifikasi ?
+                                value
                                 .kode_klasifikasi : '';
 
-                            $("#single-select-field2").append('<option value="' + value
+                            $("#single-select-field2").append(
+                                '<option value="' + value
                                 .id + '" data-kode-klasifikasi="' +
-                                kodeKlasifikasi + '">' + value.nama_klasifikasi +
+                                kodeKlasifikasi + '">' + value
+                                .nama_klasifikasi +
                                 '</option>');
                         });
 
@@ -265,18 +312,21 @@
                 var tahunMesin = $('#tahun_mesin').val();
 
                 var kodeKategori = selectedKategori.find(':selected').attr('data-kode-kategori');
-                var kodeKlasifikasi = selectedKlasifikasi.find(':selected').attr('data-kode-klasifikasi');
+                var kodeKlasifikasi = selectedKlasifikasi.find(':selected').attr(
+                    'data-kode-klasifikasi');
 
                 // Format kodeJenis sesuai kebutuhan Anda
                 // var nomorUrut = ('000' + latestID).slice(-3);
 
                 // Test Solving : Saya akan komen semua ajax dibawah ini karena tidak diperlukan lagi, tidak perlu generate nomor urutan lagi karena, hanya memakai yang sudah terbuat.
                 let existingKodeJenis = $('#kode_jenis').val() // Ambil dulu value yang tersedia
-                existingKodeJenis = existingKodeJenis.split(' - ')[2] // Split dan ambil value index ke 2 untuk mengambil nomer urutnya saja 
+                existingKodeJenis = existingKodeJenis.split(' - ')[
+                    2] // Split dan ambil value index ke 2 untuk mengambil nomer urutnya saja
 
                 // Lalu masukan dengan generate kode yang ada
                 // dan masukan variable existingKodeJenis ke barisan ke 3
-                var kodeJenis = `${kodeKategori} - ${kodeKlasifikasi} - ${existingKodeJenis} - ${tahunMesin}`
+                var kodeJenis =
+                    `${kodeKategori} - ${kodeKlasifikasi} - ${existingKodeJenis} - ${tahunMesin}`
 
                 // Init ke element id kode_jenis
                 $('#kode_jenis').val(kodeJenis);
