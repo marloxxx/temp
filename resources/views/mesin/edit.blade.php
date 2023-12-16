@@ -52,9 +52,9 @@
                             </div>
                             <div class="mb-3 row">
                                 <div class="col">
-                                    <label for="nama_kategori" class="form-label">Kategori Mesin<span
+                                    <label for="kategori" class="form-label">Kategori Mesin<span
                                             class="text-danger">*</label>
-                                    <select id="single-select-field" name="nama_kategori" class="form-control">
+                                    <select id="single-select-field" name="kategori" class="form-control">
                                         <option value="{{ $datamesin->nama_kategori }}">-- Select Kategori --</option>
                                         @foreach ($kategorimesin as $data)
                                             <option value="{{ $data->id }}" data-id="{{ $data->id }}"
@@ -66,9 +66,9 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="klas_mesin" class="form-label">Klasifikasi Mesin<span
+                                    <label for="klasifikasi" class="form-label">Klasifikasi Mesin<span
                                             class="text-danger">*</label>
-                                    <select id="single-select-field2" name="klas_mesin" class="form-control">
+                                    <select id="single-select-field2" name="klasifikasi" class="form-control">
                                         <option value="">-- Select Klasifikasi --</option>
                                         @if ($datamesin->klasmesin)
                                             <option value="{{ $datamesin->klasmesin->id }}" selected>
@@ -295,6 +295,8 @@
                     },
                 });
             }
+
+            getLatestID();
         });
     </script>
 

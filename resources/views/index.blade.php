@@ -20,25 +20,25 @@
         <div class="row">
             <!-- Earnings (Monthly) Card Example -->
             <!--
-                                                            @if (auth()->user()->level == 'Admin')
+                                                                            @if (auth()->user()->level == 'Admin')
     <div class="col-xl-3 col-md-6 mb-4">
-                                                              <div class="card border-left-primary shadow h-100 py-2">
-                                                                <div class="card-body">
-                                                                  <div class="row no-gutters align-items-center">
-                                                                    <div class="col mr-2">
-                                                                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pegawai</div>
-                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_anggota }} Orang</div>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
+                                                                              <div class="card border-left-primary shadow h-100 py-2">
+                                                                                <div class="card-body">
+                                                                                  <div class="row no-gutters align-items-center">
+                                                                                    <div class="col mr-2">
+                                                                                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pegawai</div>
+                                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_anggota }} Orang</div>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
 @else
     @endif
-                                                            -->
+                                                                            -->
 
             <!-- Total Petugas -->
             @if (auth()->user()->level == 'Admin')
@@ -78,7 +78,7 @@
                                     </div>
                                     <ul>
                                         @foreach ($jumlahKategori as $item)
-                                            <li>{{ $item->jumlah }} {{ $item->nama_kategori }}</li>
+                                            <li>{{ $item->total }} {{ $item->nama_kategori }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -102,7 +102,7 @@
                                         Klasifikasi</div>
                                     <ul>
                                         @foreach ($jumlahKlasifikasi as $item)
-                                            <li>{{ $item->jumlah }} {{ $item->nama_klasifikasi }}</li>
+                                            <li>{{ $item->total }} {{ $item->nama_klasifikasi }}</li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -136,79 +136,79 @@
             @else
             @endif
             <!-- Total Peminjaman
-                                                            @if (auth()->user()->level == 'Admin')
+                                                                            @if (auth()->user()->level == 'Admin')
     <div class="col-xl-3 col-md-6 mb-4">
-                                                              <div class="card border-left-secondary shadow h-100 py-2">
-                                                                <div class="card-body">
-                                                                  <div class="row no-gutters align-items-center">
-                                                                    <div class="col mr-2">
-                                                                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Peminjaman</div>
-                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_peminjaman }} Data</div>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
+                                                                              <div class="card border-left-secondary shadow h-100 py-2">
+                                                                                <div class="card-body">
+                                                                                  <div class="row no-gutters align-items-center">
+                                                                                    <div class="col mr-2">
+                                                                                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Peminjaman</div>
+                                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_peminjaman }} Data</div>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
 @else
     @endif
-                                                            -->
+                                                                            -->
             <!-- Total Pengembalian
 
-                                                            <div class="col-xl-3 col-md-6 mb-4">
-                                                              <div class="card border-left-secondary shadow h-100 py-2">
-                                                                <div class="card-body">
-                                                                  <div class="row no-gutters align-items-center">
-                                                                    <div class="col mr-2">
-                                                                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Pengembalian</div>
-                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Data</div>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                            -->
+                                                                            <div class="col-xl-3 col-md-6 mb-4">
+                                                                              <div class="card border-left-secondary shadow h-100 py-2">
+                                                                                <div class="card-body">
+                                                                                  <div class="row no-gutters align-items-center">
+                                                                                    <div class="col mr-2">
+                                                                                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Total Pengembalian</div>
+                                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Data</div>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                            -->
 
             <!-- Total report
-                                                            <div class="col-xl-3 col-md-6 mb-4">
-                                                              <div class="card border-left-secondary shadow h-100 py-2">
-                                                                <div class="card-body">
-                                                                  <div class="row no-gutters align-items-center">
-                                                                    <div class="col mr-2">
-                                                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">LAPORAN</div>
-                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Laporan</div>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                        -->
+                                                                            <div class="col-xl-3 col-md-6 mb-4">
+                                                                              <div class="card border-left-secondary shadow h-100 py-2">
+                                                                                <div class="card-body">
+                                                                                  <div class="row no-gutters align-items-center">
+                                                                                    <div class="col mr-2">
+                                                                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">LAPORAN</div>
+                                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Laporan</div>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                        -->
             <!-- Total historyrecall
-                                                            <div class="col-xl-3 col-md-6 mb-4">
-                                                              <div class="card border-left-secondary shadow h-100 py-2">
-                                                                <div class="card-body">
-                                                                  <div class="row no-gutters align-items-center">
-                                                                    <div class="col mr-2">
-                                                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">History Mesin</div>
-                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Data</div>
-                                                                    </div>
-                                                                    <div class="col-auto">
-                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        -->
+                                                                            <div class="col-xl-3 col-md-6 mb-4">
+                                                                              <div class="card border-left-secondary shadow h-100 py-2">
+                                                                                <div class="card-body">
+                                                                                  <div class="row no-gutters align-items-center">
+                                                                                    <div class="col mr-2">
+                                                                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">History Mesin</div>
+                                                                                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlah_pengembalian }} Data</div>
+                                                                                    </div>
+                                                                                    <div class="col-auto">
+                                                                                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                                        -->
             <!-- Approach -->
             @if (auth()->user()->approved == '1')
                 <div class="card shadow mb-4">
