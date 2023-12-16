@@ -152,7 +152,7 @@ class DataMesinController extends Controller
      */
     public function edit($id)
     {
-        $tes = DataMesin::where('id', $id)->first();
+        $tes = DataMesin::find($id)->load('kategori', 'klasifikasi');
         return view('mesin.edit', [
             'datamesin' => $tes,
             'users' => User::all(),

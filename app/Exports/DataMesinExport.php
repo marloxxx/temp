@@ -11,8 +11,7 @@ class DataMesinExport implements FromCollection, WithHeadings, WithMapping
 {
     public function collection()
     {
-        return DataMesin::with(['kategori', 'klasifikasi'])
-            ->select('kode_jenis', 'nama_kategori', 'klas_mesin', 'nama_mesin', 'type_mesin', 'merk_mesin', 'gambar_mesin', 'spek_min', 'spek_max', 'pabrik', 'kapasitas', 'tahun_mesin', 'lok_ws', 'created_at', 'updated_at')
+        return DataMesin::select('kode_jenis', 'nama_kategori', 'klas_mesin', 'nama_mesin', 'type_mesin', 'merk_mesin', 'gambar_mesin', 'spek_min', 'spek_max', 'pabrik', 'kapasitas', 'tahun_mesin', 'lok_ws', 'created_at', 'updated_at')
             ->get();
     }
 
@@ -41,8 +40,8 @@ class DataMesinExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $mesin->kode_jenis,
-            $mesin->kategori->nama_kategori,
-            $mesin->klasifikasi->nama_klasifikasi,
+            $mesin->nama_kategori,
+            $mesin->nama_klasifikasi,
             $mesin->nama_mesin,
             $mesin->type_mesin,
             $mesin->merk_mesin,
