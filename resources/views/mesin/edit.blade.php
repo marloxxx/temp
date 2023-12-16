@@ -148,46 +148,50 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
-            $('#single-select-field').select2();
-            $('#single-select-field2').select2();
-            $('#single-select-field3').select2({
-                matcher: function(params, data) {
-                    // Jika pencarian kosong, tampilkan semua opsi
-                    if ($.trim(params.term) === '') {
-                        return data;
-                    }
-
-                    // Ubah teks opsi dan kata kunci pencarian ke huruf kecil untuk pencarian yang tidak bersifat case-sensitive
-                    var text = data.text.toLowerCase();
-                    var term = params.term.toLowerCase();
-
-                    // Cek apakah dua huruf dari kata kunci muncul dalam teks opsi secara berurutan
-                    var termChars = term.split('');
-                    var termLength = termChars.length;
-                    var lastMatchedIndex = -1;
-
-                    for (var i = 0; i < termLength; i++) {
-                        var char = termChars[i];
-                        var indexInText = text.indexOf(char, lastMatchedIndex + 1);
-
-                        if (indexInText === -1) {
-                            return null; // Jika satu huruf tidak ditemukan, kembalikan null
-                        }
-
-                        lastMatchedIndex = indexInText;
-                    }
-
-                    // Jika semua huruf ditemukan secara berurutan, kembalikan data
-                    return data;
-                }
-            });
-        });
-
         window.addEventListener('load', function() {
             var kodeKategori = $('#single-select-field').find(':selected').attr('data-kode-kategori');
             var idCountry = $('#single-select-field').find(':selected').data('id');
-            if (idCountry) {
+            $("#single-select-field2").html('');
+
+            $.ajax({
+                url: "{{ url('api/getklasmesin') }}",
+                type: "POST",
+                data: {
+                    kategorimesin_id: idCountry,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#single-select-field2').html(
+                        '<option value="">-- Select Klasifikasi --</option>');
+                    $.each(result.klasmesin, function(key, value) {
+                        // Pastikan atribut data-kode-klasifikasi ada dan terisi dengan benar
+                        var kodeKlasifikasi = value.kode_klasifikasi ? value.kode_klasifikasi :
+                            '';
+                        if ('{{ $datamesin->kode_klasifikasi }}' == value.id) {
+                            $("#single-select-field2").append('<option selected value="' + value
+                                .id + '" data-kode-klasifikasi="' + kodeKlasifikasi + '">' +
+                                value.nama_klasifikasi + '</option>');
+                        } else {
+                            $("#single-select-field2").append('<option value="' + value.id +
+                                '" data-kode-klasifikasi="' + kodeKlasifikasi + '">' + value
+                                .nama_klasifikasi + '</option>');
+                        }
+
+                    });
+                }
+            });
+        });
+        $(document).ready(function() {
+            $('#single-select-field').select2();
+            $('#single-select-field2').select2();
+            $('#single-select-field3').select2();
+            $('#single-select-field').on('change', function() {
+                var idCountry = this.value;
+                var kodeKategori = $(this).find(':selected').attr('data-kode-kategori');
+
+                $("#single-select-field2").html('');
+
                 $.ajax({
                     url: "{{ url('api/getklasmesin') }}",
                     type: "POST",
@@ -202,40 +206,26 @@
                         $.each(result.klasmesin, function(key, value) {
                             // Pastikan atribut data-kode-klasifikasi ada dan terisi dengan benar
                             var kodeKlasifikasi = value.kode_klasifikasi ? value
-                                .kode_klasifikasi :
-                                '';
-                            if ('{{ $datamesin->kode_klasifikasi }}' == value.id) {
-                                $("#single-select-field2").append(
-                                    '<option selected value="' + value
-                                    .id + '" data-kode-klasifikasi="' +
-                                    kodeKlasifikasi + '">' +
-                                    value.nama_klasifikasi + '</option>');
-                            } else {
-                                $("#single-select-field2").append('<option value="' +
-                                    value.id +
-                                    '" data-kode-klasifikasi="' + kodeKlasifikasi +
-                                    '">' + value
-                                    .nama_klasifikasi + '</option>');
-                            }
+                                .kode_klasifikasi : '';
 
+                            $("#single-select-field2").append('<option value="' + value
+                                .id + '" data-kode-klasifikasi="' +
+                                kodeKlasifikasi + '">' + value.nama_klasifikasi +
+                                '</option>');
                         });
 
                         // Panggil fungsi getLatestID saat dropdown klasifikasi berubah
                         getLatestID();
                     }
                 });
-            }
+            });
 
             // Panggil fungsi getLatestID saat dropdown klasifikasi berubah
             $('#single-select-field2').on('change', function() {
                 getLatestID();
             });
 
-
-            function getLatestID() {
-                var selectedKategoriId = $('#single-select-field').val();
-                var selectedKlasifikasiId = $('#single-select-field2').val();
-
+            function getLatestID(selectedKategoriId, selectedKlasifikasiId) {
                 $.ajax({
                     url: "/get-latest-id/" + selectedKategoriId + "/" + selectedKlasifikasiId,
                     method: "GET",
@@ -249,62 +239,45 @@
                 });
             }
 
-            function updateKodeJenis(latestID) {
-                var selectedKategori = $('#single-select-field');
-                var selectedKlasifikasi = $('#single-select-field2');
-                var tahunMesin = $('#tahun_mesin').val();
-                if (tahunMesin == '') {
-                    tahunMesin = '0000';
-                }
-                var kodeKategori = selectedKategori.find(':selected').attr('data-kode-kategori');
-                var kodeKlasifikasi = selectedKlasifikasi.find(':selected').attr('data-kode-klasifikasi');
-
-                // Format kodeJenis sesuai kebutuhan Anda
-                // var nomorUrut = ('000' + latestID).slice(-3);
-                var kodeJenis = kodeKategori + ' - ' + kodeKlasifikasi + ' - ' + ' - ' + tahunMesin;
-                $('#kode_jenis').val(kodeJenis);
-
-                // Format kodeJenis sesuai kebutuhan Anda
-                $.ajax({
-                    url: "/get-latest-mesin/" + selectedKategori.val() + "/" + selectedKlasifikasi.val() +
-                        "/" + tahunMesin,
-                    method: "GET",
-                    success: function(response) {
-                        if (response.latest == '') {
-                            // var nomorUrut = ('000' + latestID).slice(-3);
-                            var kodeJenis = kodeKategori + ' - ' + kodeKlasifikasi + ' - ' + '001' +
-                                ' - ' + tahunMesin;
-                            $('#kode_jenis').val(kodeJenis);
-                        } else {
-                            var inputString = response.latest;
-                            var nextNomorUrut = incrementNomorUrut(inputString);
-
-                            // Membuat string baru dengan nomor urut yang telah diincrement
-                            var newString = inputString.replace(/(\d{3})/, nextNomorUrut);
-
-                            var kodeJenis = kodeKategori + ' - ' + kodeKlasifikasi + ' - ' +
-                                nextNomorUrut + ' - ' + tahunMesin;
-                            $('#kode_jenis').val(kodeJenis);
-
-                        }
-                    },
-                });
-            }
-
-            function incrementNomorUrut(inputString) {
+            function incrementNomorUrut(inputString, current) {
                 // Memotong string untuk mendapatkan nomor urut
                 var nomorUrutString = inputString.split('-')[2].trim();
-
+                var x = $('#single-select-field').val()
                 // Mengonversi string menjadi bilangan bulat
                 var nomorUrutInt = parseInt(nomorUrutString, 10);
 
-                // Menambahkan 1
-                var nextNomorUrutInt = nomorUrutInt + 1;
+                if (current.nama_kategori == x) {
+                    var nextNomorUrutInt = nomorUrutInt + 1;
+                } else {
+                    var nextNomorUrutInt = nomorUrutInt + 1;
+                }
 
                 // Format nomor urut menjadi string dengan panjang 3 karakter
                 var nextNomorUrutString = ('000' + nextNomorUrutInt).slice(-3);
 
                 return nextNomorUrutString;
+            }
+
+            function updateKodeJenis(latestID) {
+                var selectedKategori = $('#single-select-field');
+                var selectedKlasifikasi = $('#single-select-field2');
+                var tahunMesin = $('#tahun_mesin').val();
+
+                var kodeKategori = selectedKategori.find(':selected').attr('data-kode-kategori');
+                var kodeKlasifikasi = selectedKlasifikasi.find(':selected').attr('data-kode-klasifikasi');
+
+                // Test Solving : Saya akan komen semua ajax dibawah ini karena tidak diperlukan lagi, tidak perlu generate nomor urutan lagi karena, hanya memakai yang sudah terbuat.
+                let existingKodeJenis = $('#kode_jenis').val() // Ambil dulu value yang tersedia
+                existingKodeJenis = existingKodeJenis.split(' - ')[
+                    2] // Split dan ambil value index ke 2 untuk mengambil nomer urutnya saja
+
+                // Lalu masukan dengan generate kode yang ada
+                // dan masukan variable existingKodeJenis ke barisan ke 3
+                var kodeJenis = `${kodeKategori} - ${kodeKlasifikasi} - ${existingKodeJenis} - ${tahunMesin}`
+
+                // Init ke element id kode_jenis
+                $('#kode_jenis').val(kodeJenis);
+
             }
 
 
@@ -315,11 +288,6 @@
 
             // Panggil fungsi saat dropdown kategori berubah
             $('#single-select-field').on('change', function() {
-                getLatestID();
-            });
-
-            // Panggil fungsi saat halaman dimuat untuk menginisialisasi nilai "kode_jenis"
-            window.addEventListener('load', function() {
                 getLatestID();
             });
         });
