@@ -30,8 +30,6 @@ class DashboardController extends Controller
             ->orderBy('klas_mesin')
             ->get();
 
-        dd($jumlahKategori, $jumlahKlasifikasi);
-
         return view('index', [
             'jumlahKategori' => $jumlahKategori,
             'jumlahKlasifikasi' => $jumlahKlasifikasi,
