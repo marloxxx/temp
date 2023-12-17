@@ -22,11 +22,15 @@ class DashboardController extends Controller
         // get nama kategori and how many mesin in that kategori
         $jumlahKategori = DataMesin::select('nama_kategori', DB::raw('count(*) as total'))
             ->groupBy('nama_kategori')
+            ->orderBy('nama_kategori')
             ->get();
 
-        $jumlahKlasifikasi = DataMesin::select('nama_klasifikasi', DB::raw('count(*) as total'))
-            ->groupBy('nama_klasifikasi')
+        $jumlahKlasifikasi = DataMesin::select('klas_mesin', DB::raw('count(*) as total'))
+            ->groupBy('klas_mesin')
+            ->orderBy('klas_mesin')
             ->get();
+
+        dd($jumlahKategori, $jumlahKlasifikasi);
 
         return view('index', [
             'jumlahKategori' => $jumlahKategori,

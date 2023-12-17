@@ -54,7 +54,6 @@ class DataMesinController extends Controller
             $newKode = '001'; // Jika belum ada data
         }
 
-
         return view('mesin.create', [
             'kodeJenis' => $newKode,
             // Sertakan data lain yang Anda perlukan di tampilan di sini
@@ -89,8 +88,6 @@ class DataMesinController extends Controller
             'lok_ws' => 'required',
             'kapasitas' => '',
             'pabrik' => 'required',
-
-
         ]);
         if ($validator->fails()) {
             return redirect('/data-mesin/create')
@@ -108,7 +105,7 @@ class DataMesinController extends Controller
 
         DataMesin::create([
             'no_mesin' => $request->no_mesin,
-            'klas_mesin' => $request->klasifikasi,
+            'klas_mesin' => $klasmesin->nama_klasifikasi,
             'nama_mesin' => $request->nama_mesin,
             'type_mesin' => $request->type_mesin,
             'merk_mesin' => $request->merk_mesin,
